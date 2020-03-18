@@ -1,0 +1,35 @@
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+	<title>Remote Compiler</title>
+</head>
+<body>
+	<center>
+		<h1>Remote Compiler</h1>
+		<form id="myform" name="myform" method="post" action="#">
+
+			<h3>Code</h3>
+			<textarea rows="13" cols="100" id="code" name="code" ></textarea><br/>
+
+			<h3>Input</h3>
+			<textarea rows="10" cols="100" id="input" name="input" ></textarea><br/>
+
+			Language : <select id="lang" name="lang">
+			  <option value="C">C</option>
+			  <option value="C++">C++</option>
+			  <option value="Java">Java</option>
+			  <option value="Python">Python</option>
+			  <option value="CS">C#</option>
+			  <option value="VB">VB</option>
+			</select>
+			Compile With Input :
+			<input type="radio" name="inputRadio" id="inputRadio" value="true"/>yes
+			<input type="radio" name="inputRadio" id="inputRadio" value="false"/>No
+			<br />
+		</form>
+		<button id="submitBtn" type="button">hello</button>
+	</center>
+</body>
+<script src="./public/client.js"></script>
+</html>

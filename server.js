@@ -2,12 +2,13 @@ const express = require('express');
 const path = require('path');
 const app = express();
 app.use(express.urlencoded());
+app.use("/public", express.static(__dirname + "/public"));
 
 const compiler = require('./compiler');
 compiler.init({stats : true});
 
 app.get('/' , function (req , res ) {
-	res.sendfile( __dirname + "/index.html");
+	res.sendfile( __dirname + "/public/index.html");
 });
 
 const PORT = 8080;
@@ -21,8 +22,8 @@ app.post('/compilecode' , function (req , res ) {
     let lang = req.body.lang;
 
 	var callback = function(data) {
-		if (data.error) res.send(data.error);
-		else res.send(data.output);
+		if (data.error) res.send({error: data.error});
+		else res.send({output: data.output});
 	}
 
 	switch (lang) {

@@ -17,7 +17,7 @@ exports.compileCPP = function(envData, code, fn) {
 			if(envData.cmd === 'g++')
 				commmand = 'g++ ' + path + filename +'.cpp -o '+ path + filename;
 			else if (envData.cmd === 'gcc')
-				commmand = 'gcc ' + path + filename +'.c -o '+ path + filename;
+				commmand = 'gcc ' + path + filename +'.cpp -o '+ path + filename;
 			else {
 				console.log('ERROR: '.red + 'choose either g++ or gcc ');
 				return;
@@ -25,7 +25,7 @@ exports.compileCPP = function(envData, code, fn) {
 			/* COMPILATION */
 			exec(commmand, function(error, stdout, stderr) {
 				if(error) {
-					console.log('INFO: '.green + filename + '.cpp contained an error while compiling');
+					console.log('INFO: '.yellow + filename + '.cpp contained an error while compiling');
 					var out = { error : stderr };
 					fn(out);
 				}
@@ -39,7 +39,7 @@ exports.compileCPP = function(envData, code, fn) {
 								fn(out);
 							}
 							else {
-								console.log('INFO: '.green + filename + '.cpp contained an error while executing');
+								console.log('INFO: '.yellow + filename + '.cpp contained an error while executing');
 								var out = { error : stderr };
 								fn(out);
 							}
@@ -58,7 +58,7 @@ exports.compileCPP = function(envData, code, fn) {
 							exec("taskkill /im "+filename+" /f > nul",function( error , stdout , stderr ) {
 								if(progNotFinished) {
 									progNotFinished = false;
-									console.log('INFO: '.green + filename + ' was killed after '+ envData.timeout + 'ms');
+									console.log('INFO: '.yellow + filename + ' was killed after '+ envData.timeout + 'ms');
 									var out = { timeout : true};
 									fn(out);
 								}

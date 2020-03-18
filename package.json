@@ -4,7 +4,10 @@
   "description": "Compile code in different languages from a web or mobile app. Send input code to the API, then the server compile it, execute it and give you the output (error / success).",
   "main": "compiler.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "colors": "^1.4.0",
+    "cuid": "^2.1.8",
+    "express": "^4.17.1",
+    "jquery": "^3.4.1"
   },
   "devDependencies": {},
   "scripts": {
