@@ -1,130 +1,47 @@
-var express = require('express');
-var path = require('path');
-var app = express();
-var bodyParser = require('body-parser');
-app.use(bodyParser());
+const express = require('express');
+const path = require('path');
+const app = express();
+app.use(express.urlencoded());
 
-var compiler = require('./compiler');
-var option = {stats : true};
-compiler.init(option);
+const compiler = require('./compiler');
+compiler.init({stats : true});
 
 app.get('/' , function (req , res ) {
-
 	res.sendfile( __dirname + "/index.html");
-
 });
 
+const PORT = 8080;
+const timeout = {timeout: 20000}
 
 app.post('/compilecode' , function (req , res ) {
 
-	var code = req.body.code;
-	var input = req.body.input;
-    var inputRadio = req.body.inputRadio;
-    var lang = req.body.lang;
-    if((lang === "C") || (lang === "C++"))
-    {
-        if(inputRadio === "true")
-        {
-        	var envData = { OS : "windows" , cmd : "g++"};
-        	compiler.compileCPPWithInput(envData , code ,input , function (data) {
-        		if(data.error)
-        		{
-        			res.send(data.error);
-        		}
-        		else
-        		{
-        			res.send(data.output);
-        		}
-        	});
-	   }
-	   else
-	   {
+	let code = req.body.code;
+	let input = req.body.input;
+    let inputRadio = req.body.inputRadio;
+    let lang = req.body.lang;
 
-	   	var envData = { OS : "windows" , cmd : "g++", options: {timeout: 20000}};
-        	compiler.compileCPP(envData , code , function (data) {
-        	if(data.error)
-        	{
-        		res.send(data.error);
-        	}
-        	else
-        	{
-        		res.send(data.output);
-        	}
+	var callback = function(data) {
+		if (data.error) res.send(data.error);
+		else res.send(data.output);
+	}
 
-            });
-	   }
-    }
-    if(lang === "Java")
-    {
-        if(inputRadio === "true")
-        {
-            var envData = { OS : "windows" };
-            console.log(code);
-            compiler.compileJavaWithInput( envData , code);
-        }
-        else
-        {
-            var envData = { OS : "windows" };
-            console.log(code);
-            compiler.compileJava(envData, code, function(data){
-                res.send(data);
-            });
-        }
-    }
-    if( lang === "Python")
-    {
-        if(inputRadio === "true")
-        {
-            var envData = { OS : "windows"};
-            compiler.compilePythonWithInput(envData , code , input , function(data){
-                res.send(data);
-            });
-        }
-        else
-        {
-            var envData = { OS : "windows"};
-            compiler.compilePython(envData , code , function(data){
-                res.send(data);
-            });
-        }
-    }
-    if( lang === "CS")
-    {
-        if(inputRadio === "true")
-        {
-            var envData = { OS : "windows"};
-            compiler.compileCSWithInput(envData , code , input , function(data){
-                res.send(data);
-            });
-        }
-        else
-        {
-            var envData = { OS : "windows"};
-            compiler.compileCS(envData , code , function(data){
-                res.send(data);
-            });
-        }
-
-    }
-    if( lang === "VB")
-    {
-        if(inputRadio === "true")
-        {
-            var envData = { OS : "windows"};
-            compiler.compileVBWithInput(envData , code , input , function(data){
-                res.send(data);
-            });
-        }
-        else
-        {
-            var envData = { OS : "windows"};
-            compiler.compileVB(envData , code , function(data){
-                res.send(data);
-            });
-        }
-
-    }
-
+	switch (lang) {
+		case "C":
+			return compiler.compileCPP({cmd: "gcc", timeout: 20000}, code, callback);
+		case "C++":
+			return compiler.compileCPP({cmd: "g++", timeout: 20000}, code, callback);
+		case "Java":
+			return compiler.compileJava(timeout, code, callback);
+		case "Python":
+			return compiler.compilePython(timeout, code, callback);
+		case "CS":
+			return compiler.compileCS(timeout, code, callback);
+		case "VB":
+			return compiler.compileVB(timeout, code, callback);
+		default:
+			console.log("Invalid language".red);
+			return;
+	}
 });
 
 app.get('/fullStat' , function(req , res ){
@@ -133,4 +50,4 @@ app.get('/fullStat' , function(req , res ){
     });
 });
 
-app.listen(8080);
+app.listen(PORT);

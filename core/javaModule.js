@@ -2,14 +2,19 @@ var exec  = require('child_process').exec;
 var fs = require('fs');
 var cuid = require('cuid');
 var colors = require('colors');
-const className = "Algorithm";
+
+
 
 exports.stats = false ;
 
 exports.compileJava = function (envData , code , fn ){
-	//creating source file
-    var dirname = cuid.slug();
-	path = './temp/'+dirname;
+
+    const className = "Algorithm";
+    const dirname = cuid.slug();
+    const path = './temp/'+dirname;
+    const compile = "cd " + path + " && javac " + className + ".java";
+    const execute = "cd " + path + " && java " + className;
+
 
 	fs.mkdir(path , 0777 , function(err){
 		if(err && exports.stats)
@@ -24,9 +29,7 @@ exports.compileJava = function (envData , code , fn ){
 			    	if(exports.stats)
 			    		console.log('INFO: '.green + path + "/" + className + ".java created");
 
-			    	if(envData.OS === "windows")
-						var command = "cd "+path+ " && " + " javac " + className + ".java";
-					exec(command , function( error , stdout , stderr ){
+					exec(compile , function( error , stdout , stderr ){
 						if(error)
 						{
 							if(exports.stats)
@@ -37,11 +40,9 @@ exports.compileJava = function (envData , code , fn ){
 						else
 						{
 							console.log("INFO: ".green + "compiled a java file");
-							var command = "cd "+path+" && java " + className;
-							exec(command , function( error , stdout , stderr ){
+							exec(execute , function( error , stdout , stderr ){
 								if(error)
 								{
-
 									if(error.toString().indexOf('Error: stdout maxBuffer exceeded.') != -1)
 									{
 										var out = { error : 'Error: stdout maxBuffer exceeded. You might have initialized an infinite loop.'};
@@ -68,83 +69,6 @@ exports.compileJava = function (envData , code , fn ){
 								}
 							});
 						}
-					});
-			    }
-			});
-		}
-	});
-}
-
-
-
-exports.compileJavaWithInput = function (envData , code , input , fn ){
-	//creating source file
-    var dirname = cuid.slug();
-	path = './temp/'+dirname;
-
-	fs.mkdir(path , 0777 , function(err){
-		if(err && exports.stats)
-		console.log(err.toString().red);
-		else
-		{
-			fs.writeFile( path  + "/Main.java" , code  , function(err ){
-				if(err && exports.stats)
-					console.log('ERROR: '.red + err);
-			    else
-			    {
-			    	if(exports.stats)
-			    		console.log('INFO: '.green + path + "/Main.java created");
-			    	fs.writeFile( path + "/input.txt" , input , function (err){
-			    		if(err && exports.stats)
-							console.log('ERROR: '.red + err);
-						else
-						{
-							if(envData.OS === "windows")
-							var command = "cd "+path+ " & " + " javac Main.java";
-							exec(command , function( error , stdout , stderr ){
-								if(error)
-								{
-									if(exports.stats)
-										console.log("INFO: ".green + path + "/Main.java contained an error while compiling");
-									var out = {error :  stderr };
-									fn(out);
-								}
-								else
-								{
-									console.log("INFO: ".green + "compiled a java file");
-									var command = "cd "+path+" & java Main < input.txt";
-									exec(command , function( error , stdout , stderr ){
-										if(error)
-										{
-
-											if(exports.stats)
-											{
-												console.log('INFO: '.green + path  + '/Main.java contained an error while executing');
-											}
-											if(error.toString().indexOf('Error: stdout maxBuffer exceeded.') != -1)
-											{
-												var out = { error : 'Error: stdout maxBuffer exceeded. You might have initialized an infinite loop.'};
-												fn(out);
-											}
-											else
-											{
-												var out = { error : stderr};
-												fn(out);
-											}
-										}
-										else
-										{
-											if(exports.stats)
-											{
-												console.log('INFO: '.green + path + '/Main.java successfully compiled and executed !');
-											}
-											var out = { output : stdout};
-											fn(out);
-										}
-									});
-								}
-			    			});
-			    		}
 					});
 			    }
 			});
