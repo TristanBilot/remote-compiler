@@ -48,7 +48,7 @@ exports.compileCPP = function(envData, code, fn) {
 							if(progNotFinished) {
 								progNotFinished = false;
 								console.log('INFO: '.green + filename + '.cpp successfully compiled and executed !');
-								var out = { output : stdout};
+								var out = { success : stdout};
 								fn(out);
 							}
 						}

@@ -1,11 +1,14 @@
 <html>
 <head>
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<script src="./public/lib/monaco-editor/min/vs/loader.js"></script>
+	<link href="./public/style.css" rel="stylesheet"></link>
 	<title>Remote Compiler</title>
 </head>
 <body>
-	<center>
 		<h1>Remote Compiler</h1>
 		<form id="myform" name="myform" method="post" action="#">
 
@@ -14,6 +17,7 @@
 
 			<h3>Input</h3>
 			<textarea rows="10" cols="100" id="input" name="input" ></textarea><br/>
+			<div id="container" style="width:800px;height:600px;border:1px solid grey"></div>
 
 			Language : <select id="lang" name="lang">
 			  <option value="C">C</option>
@@ -28,8 +32,25 @@
 			<input type="radio" name="inputRadio" id="inputRadio" value="false"/>No
 			<br />
 		</form>
-		<button id="submitBtn" type="button">hello</button>
-	</center>
+		<button id="submitBtn" type="button">Submit my code</button>
+		<div id="output" class="output"></div>
 </body>
 <script src="./public/client.js"></script>
+<script src="./public/editor.js"></script>
+
+
+<script>
+    require.config({ paths: { 'vs': './public/lib/monaco-editor/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+        var editor = monaco.editor.create(document.getElementById('container'), {
+            value: [
+                'function x() {',
+                '\tconsole.log("Hello world!");',
+                '}'
+            ].join('\n'),
+            language: 'javascript'
+        });
+    });
+</script>
+
 </html>

@@ -1,0 +1,18 @@
+.output_success {
+    color: green;
+}
+
+.output_error {
+    color: red;
+}
+
+.output_timeout {
+    color: orange;
+}
+
+.output {
+    padding: 20px;
+    border: 1px solid rgb(220,220,220);
+    border-radius: 5px;
+    width: 400px;
+}

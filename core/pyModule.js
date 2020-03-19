@@ -28,7 +28,7 @@ exports.compilePython = function (envData , code , fn) {
 				}
 				else {
 					console.log('INFO: '.green + filename + '.py successfully executed !');
-					var out = { output : stdout};
+					var out = { success : stdout};
 					fn(out);
 				}
 		    });

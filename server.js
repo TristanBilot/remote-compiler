@@ -12,7 +12,8 @@ app.get('/' , function (req , res ) {
 });
 
 const PORT = 8080;
-const timeout = {timeout: 20000}
+const timeout = {timeout: 20000};
+const timeout_error = "The execution of your code timed out (" + timeout.timeout / 1000 + "s).";
 
 app.post('/compilecode' , function (req , res ) {
 
@@ -21,9 +22,11 @@ app.post('/compilecode' , function (req , res ) {
     let inputRadio = req.body.inputRadio;
     let lang = req.body.lang;
 
-	var callback = function(data) {
-		if (data.error) res.send({error: data.error});
-		else res.send({output: data.output});
+	let callback = (data) => {
+		if 		(data.error)   res.send({state: 'error', response: data.error});
+		else if (data.success) res.send({state: 'success', response: data.success});
+		else if (data.timeout) res.send({state: 'timeout', response: timeout_error});
+		else console.log("No data sent to the client".red);
 	}
 
 	switch (lang) {

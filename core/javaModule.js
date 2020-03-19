@@ -64,7 +64,7 @@ exports.compileJava = function (envData , code , fn ){
 									{
 										console.log('INFO: '.green + path + '/' + className + '.java successfully compiled and executed !');
 									}
-									var out = { output : stdout};
+									var out = { success : stdout};
 									fn(out);
 								}
 							});
