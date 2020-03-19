@@ -1,6 +1,6 @@
 /* +++++ init() at the end of file +++++ */
 function init() {
-    let lang = "Python";
+    let lang = "C++";
     initEditor(lang);
     $('#lang').val(lang);
 }
@@ -14,9 +14,37 @@ function initEditor(lang) {
     require(['vs/editor/editor.main'], function() {
         window.editor = monaco.editor.create(document.getElementById('container'), {
             value: baseCode[lang].join('\n'),
-            language: language
+            language: language,
+            fontSize: 17
         });
+        initTheme();
     });
+}
+
+function initTheme() {
+    monaco.editor.defineTheme('myTheme', {
+        base: 'vs',
+        inherit: true,
+        rules: [
+            { background: '#151619' },
+            { token: '', foreground: '#61AFEF' },
+            { token: 'delimiter', foreground: '#C3C3C3' },
+            { token: 'number', foreground: '#CC9765' },
+            { token: 'keyword', foreground: '#E06C75' },
+            { token: 'string', foreground: '#90B973' },
+            { token: 'comment', foreground: '#7F848E' },
+        ],
+        colors: {
+            'editor.foreground': '#151619',
+            'editor.background': '#151619',
+            'editorCursor.foreground': '#528BFF',
+            'editor.lineHighlightBackground': '#30333D',
+            'editorLineNumber.foreground': '#495062',
+            'editor.selectionBackground': '#88000030',
+            'editor.inactiveSelectionBackground': '#88000015'
+        }
+    });
+    monaco.editor.setTheme('myTheme');
 }
 
 function updateEditor(lang) {
@@ -52,10 +80,11 @@ const baseCode = {
         '}\n'
     ],
     'C++': [
-        '#include <stdio.h>',
-        '#include <stddef.h>',
+        '#include <iostream>',
+        'using namespace std;',
         '\nint main() {',
-        '\n\treturn 0;',
+        '\n\tcout << "Hello";',
+        '\treturn 0;',
         '}\n'
     ],
     'Java': [
