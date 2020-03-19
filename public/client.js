@@ -1,9 +1,14 @@
 
 $('#submitBtn').click(() => {
-    let code = $('#code').val();
+    let code = getCode();
     let lang = $('#lang').val();
 
     submit(code, lang);
+});
+
+$('#lang').on("change", function() {
+    let selectedLang = $(this).find(":selected").val();
+    updateEditor(selectedLang);
 });
 
 const submit = (code, lang) => {

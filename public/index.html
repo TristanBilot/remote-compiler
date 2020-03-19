@@ -15,9 +15,10 @@
 			<h3>Code</h3>
 			<textarea rows="13" cols="100" id="code" name="code" ></textarea><br/>
 
-			<h3>Input</h3>
-			<textarea rows="10" cols="100" id="input" name="input" ></textarea><br/>
+			<!-- <h3>Input</h3>
+			<textarea rows="10" cols="100" id="input" name="input" ></textarea><br/>-->
 			<div id="container" style="width:800px;height:600px;border:1px solid grey"></div>
+
 
 			Language : <select id="lang" name="lang">
 			  <option value="C">C</option>
@@ -27,30 +28,15 @@
 			  <option value="CS">C#</option>
 			  <option value="VB">VB</option>
 			</select>
-			Compile With Input :
+			<!-- Compile With Input :
 			<input type="radio" name="inputRadio" id="inputRadio" value="true"/>yes
 			<input type="radio" name="inputRadio" id="inputRadio" value="false"/>No
-			<br />
+			<br /> -->
 		</form>
 		<button id="submitBtn" type="button">Submit my code</button>
 		<div id="output" class="output"></div>
 </body>
-<script src="./public/client.js"></script>
 <script src="./public/editor.js"></script>
-
-
-<script>
-    require.config({ paths: { 'vs': './public/lib/monaco-editor/min/vs' }});
-    require(['vs/editor/editor.main'], function() {
-        var editor = monaco.editor.create(document.getElementById('container'), {
-            value: [
-                'function x() {',
-                '\tconsole.log("Hello world!");',
-                '}'
-            ].join('\n'),
-            language: 'javascript'
-        });
-    });
-</script>
+<script src="./public/client.js"></script>
 
 </html>
