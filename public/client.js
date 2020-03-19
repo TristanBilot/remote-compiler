@@ -1,3 +1,4 @@
+/* Events related to the client side */
 
 $('#submitBtn').click(() => {
     let code = getCode();
@@ -11,14 +12,12 @@ $('#lang').on("change", function() {
     updateEditor(selectedLang);
 });
 
-const submit = (code, lang) => {
+function submit(code, lang) {
     $.post( "compilecode", { code: code, lang: lang } )
     .done((data) => {
         const noDataError = "A server error occured, please try again.";
         const invalidStateError = "Your code could not be validated.";
         let output = $('#output');
-
-        console.log(data.response);
 
         if (!data || !data.response || !data.state) {
             output.val(noDataError);
@@ -41,7 +40,7 @@ const submit = (code, lang) => {
     })
 }
 
-const updateClass = (element, newClass) => {
+function updateClass(element, newClass) {
     element.removeClass();
     element.addClass('output ' + newClass);
 }

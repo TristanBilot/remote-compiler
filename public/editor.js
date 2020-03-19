@@ -1,10 +1,8 @@
-
-/* +++++ Editor init +++++ */
-init();
-
+/* +++++ init() at the end of file +++++ */
 function init() {
     let lang = "Python";
     initEditor(lang);
+    $('#lang').val(lang);
 }
 
 function initEditor(lang) {
@@ -67,3 +65,6 @@ const baseCode = {
         '}'
     ]
 };
+
+/* +++++ Editor init +++++ */
+init();
