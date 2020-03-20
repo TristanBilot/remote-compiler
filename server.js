@@ -23,17 +23,18 @@ app.post('/compilecode' , function (req , res ) {
     let lang = req.body.lang;
 
 	let callback = (data) => {
+		console.log(data);
 		if 		(data.error)   res.send({state: 'error', response: data.error});
 		else if (data.success) res.send({state: 'success', response: data.success});
 		else if (data.timeout) res.send({state: 'timeout', response: timeout_error});
-		else console.log("No data sent to the client".red);
+		else ERR('[-] No data sent to the client');
 	}
 
 	switch (lang) {
 		case "C":
-			return compiler.compileCPP({cmd: "gcc", timeout: 20000}, code, callback);
+			return compiler.compileCPP({cmd: "gcc", timeout: 10000}, code, callback);
 		case "C++":
-			return compiler.compileCPP({cmd: "g++", timeout: 20000}, code, callback);
+			return compiler.compileCPP({cmd: "g++", timeout: 10000}, code, callback);
 		case "Java":
 			return compiler.compileJava(timeout, code, callback);
 		case "Python":
@@ -43,8 +44,7 @@ app.post('/compilecode' , function (req , res ) {
 		case "VB":
 			return compiler.compileVB(timeout, code, callback);
 		default:
-			console.log("Invalid language".red);
-			return;
+			return console.log("Invalid language".red);
 	}
 });
 

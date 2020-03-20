@@ -1,77 +1,87 @@
-let exec  = require('child_process').exec;
-let fs = require('fs');
-let cuid = require('cuid');
-let colors = require('colors');
-let utils = require('./utils');
+const exec  = require('child_process').exec;
+const fs = require('fs');
+const cuid = require('cuid');
+const colors = require('colors');
 
 const path = './temp/';
 
-exports.compileCPP = function(envData, code, fn) {
-	let filename = cuid.slug();
+exports.compileCPP = function(envData, code, send) {
+	var filename = cuid.slug();
+	var file;
+	var command;
+	var child;
+
+	if(envData.cmd === 'g++') {
+		file = filename + '.cpp';
+		commmand = 'g++ ' + path + file + ' -o '+ path + filename;
+	}
+	else if (envData.cmd === 'gcc') {
+		file = filename + '.c';
+		commmand = 'gcc ' + path + file + ' -o '+ path + filename;
+	}
+	else
+		return ERR('choose either g++ or gcc.');
 
 	fs.writeFile(path + filename +'.cpp', code, function(err) {
 		if(err)
-			console.log('ERROR: '.red + err);
+			ERR(err);
 		else {
-			console.log('INFO: '.green + filename +'.cpp created');
-			var command;
-			if(envData.cmd === 'g++')
-				commmand = 'g++ ' + path + filename +'.cpp -o '+ path + filename;
-			else if (envData.cmd === 'gcc')
-				commmand = 'gcc ' + path + filename +'.cpp -o '+ path + filename;
-			else {
-				console.log('ERROR: '.red + 'choose either g++ or gcc ');
-				return;
-			}
+			INFO(file + ' created.');
+
 			/* COMPILATION */
 			exec(commmand, function(error, stdout, stderr) {
 				if(error) {
-					console.log('INFO: '.yellow + filename + '.cpp contained an error while compiling');
-					var out = { error : stderr };
-					fn(out);
+					INFO(file + err_compiling);
+					send({ error : stderr });
 				}
 				else {
-					console.log('INFO: '.green + filename + '.cpp successfully compiled !');
-					var progNotFinished = true;
+					INFO(file + succ_compiling);
 					commmand = "cd temp && ./" + filename;
+					var notFinished = true;
 					const start = process.hrtime();
-					exec(commmand, function(error, stdout, stderr) {
+
+					/* EXECUTION */
+					exec(commmand,  function(error, stdout, stderr) {
 						if(error) {
-							if(error.toString().indexOf('Error: stdout maxBuffer exceeded.') != -1) {
-								var out = { error : 'Error: stdout maxBuffer exceeded. You might have initialized an infinite loop.' };
-								fn(out);
-							}
+							if(error.toString().indexOf('Error: stdout maxBuffer exceeded.') != -1)
+								send({ error : error + err_infinite_loop });
 							else {
-								console.log('INFO: '.yellow + filename + '.cpp contained an error while executing');
-								var out = { error : stderr };
-								fn(out);
+								WARN(file + err_executing);
+								send({ error : stderr });
 							}
 						}
 						else {
-							const end = utils.getPerformance(start);
-							if(progNotFinished) {
-								progNotFinished = false;
-								console.log('INFO: '.green + filename + '.cpp successfully executed !');
-								console.log(end);
-								var out = { success : (end).toString() };
-								fn(out);
+							const time = u.getPerformance(start);
+							if(notFinished) {
+								notFinished = false;
+								INFO(file + succ_executing);
+								send({ success : stdout, time: time });
 							}
 						}
 					});
+
 					if(envData.timeout) {
 						setTimeout(function () {
-							exec("taskkill /im "+filename+" /f > nul",function( error , stdout , stderr ) {
-								if(progNotFinished) {
-									progNotFinished = false;
-									console.log('INFO: '.yellow + filename + ' was killed after '+ envData.timeout + 'ms');
-									var out = { timeout : true};
-									fn(out);
+							let pids = pid.split('\n');
+							exec("kill "+ pids[0] + " " + pids[1], function(error, stdout, stderr) {
+								if(notFinished) {
+									if(error)
+										return ERR(file + ' failed to be killed after ' + envData.timeout + 'ms.')
+									notFinished = false;
+									WARN(file + ' was killed after ' + envData.timeout + 'ms.');
+									send({ timeout : true });
 								}
 							});
-						},envData.timeout);
+						}, envData.timeout);
 					}
+
+					exec('pgrep -f ./' + filename, function(err, stdout, stderr) {
+					 	pid = stdout;
+					});
 				}
 			});
+
+
 		}
 	});
 }
