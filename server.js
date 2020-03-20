@@ -7,12 +7,12 @@ app.use("/public", express.static(__dirname + "/public"));
 const compiler = require('./compiler');
 compiler.init({stats : true});
 
-app.get('/' , function (req , res ) {
+app.get('/', function (req, res) {
 	res.sendfile( __dirname + "/public/index.html");
 });
 
 const PORT = 8080;
-const timeout = {timeout: 20000};
+const timeout = 10000;
 const timeout_error = "The execution of your code timed out (" + timeout.timeout / 1000 + "s).";
 
 app.post('/compilecode' , function (req , res ) {
@@ -32,9 +32,9 @@ app.post('/compilecode' , function (req , res ) {
 
 	switch (lang) {
 		case "C":
-			return compiler.compileCPP({cmd: "gcc", timeout: 10000}, code, callback);
+			return compiler.compileCPP({cmd: "gcc", timeout: timeout}, code, callback);
 		case "C++":
-			return compiler.compileCPP({cmd: "g++", timeout: 10000}, code, callback);
+			return compiler.compileCPP({cmd: "g++", timeout: timeout}, code, callback);
 		case "Java":
 			return compiler.compileJava(timeout, code, callback);
 		case "Python":
@@ -55,3 +55,5 @@ app.get('/fullStat' , function(req , res ){
 });
 
 app.listen(PORT);
+
+compiler.fullStat();
