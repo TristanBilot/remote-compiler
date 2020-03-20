@@ -1,7 +1,8 @@
-var exec  = require('child_process').exec;
-var fs = require('fs');
-var cuid = require('cuid');
-var colors = require('colors');
+let exec  = require('child_process').exec;
+let fs = require('fs');
+let cuid = require('cuid');
+let colors = require('colors');
+let utils = require('./utils');
 
 const path = './temp/';
 
@@ -30,8 +31,10 @@ exports.compileCPP = function(envData, code, fn) {
 					fn(out);
 				}
 				else {
+					console.log('INFO: '.green + filename + '.cpp successfully compiled !');
 					var progNotFinished = true;
 					commmand = "cd temp && ./" + filename;
+					const start = process.hrtime();
 					exec(commmand, function(error, stdout, stderr) {
 						if(error) {
 							if(error.toString().indexOf('Error: stdout maxBuffer exceeded.') != -1) {
@@ -45,10 +48,12 @@ exports.compileCPP = function(envData, code, fn) {
 							}
 						}
 						else {
+							const end = utils.getPerformance(start);
 							if(progNotFinished) {
 								progNotFinished = false;
-								console.log('INFO: '.green + filename + '.cpp successfully compiled and executed !');
-								var out = { success : stdout};
+								console.log('INFO: '.green + filename + '.cpp successfully executed !');
+								console.log(end);
+								var out = { success : (end).toString() };
 								fn(out);
 							}
 						}
