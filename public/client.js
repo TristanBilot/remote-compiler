@@ -7,8 +7,8 @@ $('#submitBtn').click(() => {
     submit(code, lang);
 });
 
-$('#lang').on("change", function() {
-    let selectedLang = $(this).find(":selected").val();
+$('.option').click(function() {
+    let selectedLang = $(".label", this).text();
     updateEditor(selectedLang);
 });
 
