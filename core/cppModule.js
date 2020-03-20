@@ -51,7 +51,7 @@ exports.compileCPP = function(envData, code, send) {
 							}
 						}
 						else {
-							const time = u.getPerformance(start);
+							const time = getPerformance(start);
 							if(notFinished) {
 								notFinished = false;
 								INFO(file + succ_executing);

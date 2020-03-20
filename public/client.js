@@ -12,6 +12,11 @@ $('#lang').on("change", function() {
     updateEditor(selectedLang);
 });
 
+$(window).on('resize', function(){
+    $('#app-cover').css('left', $('#right').width() / 2 - $('#app-cover').width() / 2)
+                   .css('top', '20');
+});
+
 function submit(code, lang) {
     $.post( "compilecode", { code: code, lang: lang } )
     .done((data) => {

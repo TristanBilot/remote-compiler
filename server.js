@@ -13,7 +13,7 @@ app.get('/', function (req, res) {
 
 const PORT = 8080;
 const timeout = 10000;
-const timeout_error = "The execution of your code timed out (" + timeout.timeout / 1000 + "s).";
+const timeout_error = "The execution of your code timed out (" + timeout / 1000 + "seconds).";
 
 app.post('/compilecode' , function (req , res ) {
 

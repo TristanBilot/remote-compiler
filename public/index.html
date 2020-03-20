@@ -2,31 +2,89 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
 
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script src="./public/lib/monaco-editor/min/vs/loader.js"></script>
 	<link href="./public/style.css" rel="stylesheet"></link>
+	<link href="./public/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet"></link>
 	<title>Remote Compiler</title>
 </head>
 <body>
-		<h1>Remote Compiler</h1>
-		<form id="myform" name="myform" method="post" action="#">
+	<!-- Left part -->
+	<div id="left">
+		<!-- editor -->
+		<div id="container"></div>
+		Language : <select id="lang" name="lang">
+		  <option value="C">C</option>
+		  <option value="C++">C++</option>
+		  <option value="Java">Java</option>
+		  <option value="Python">Python</option>
+		  <option value="CS">C#</option>
+		  <option value="VB">VB</option>
+		</select>
+		<button id="submitBtn" type="button">
+			<i class="fa fa-play" aria-hidden="true"></i>&nbsp;Run
+		</button>
+	</div>
 
-			<!-- editor -->
-			<div id="container" style="width:800px;height:600px;border:1px solid grey"></div>
+	<!-- Right part -->
+	<div id="right">
+		<form id="app-cover">
+            <div id="select-box">
+                <input type="checkbox" id="options-view-button">
+                <div id="select-button" class="brd">
+                    <div id="selected-value">
+                        <span>Select a language</span>
+                    </div>
+                    <div id="chevrons">
+                        <i class="fas fa-chevron-up"></i>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+                <div id="options">
+                    <div class="option">
+                        <input class="s-c top" type="radio" name="platform" value="codepen">
+                        <input class="s-c bottom" type="radio" name="platform" value="codepen">
+                        <i class="fab fa-python"></i>
+                        <span class="label">Python</span>
+                        <span class="opt-val">Python</span>
+                    </div>
+                    <div class="option">
+                        <input class="s-c top" type="radio" name="platform" value="dribbble">
+                        <input class="s-c bottom" type="radio" name="platform" value="dribbble">
+						<i class="fas fa-file-code"></i>
+                        <span class="label">C++</span>
+                        <span class="opt-val">C++</span>
+                    </div>
+                    <div class="option">
+                        <input class="s-c top" type="radio" name="platform" value="behance">
+                        <input class="s-c bottom" type="radio" name="platform" value="behance">
+                        <i class="fab fa-cuttlefish"></i>
+                        <span class="label">C</span>
+                        <span class="opt-val">C</span>
+                    </div>
+                    <div class="option">
+                        <input class="s-c top" type="radio" name="platform" value="hackerrank">
+                        <input class="s-c bottom" type="radio" name="platform" value="hackerrank">
+						<i class="fab fa-java"></i>
+                        <span class="label">Java</span>
+                        <span class="opt-val">Java</span>
+                    </div>
+                    <div id="option-bg"></div>
+                </div>
+            </div>
+	    </form>
+		<div id="rightContent">
+			<div id="outputContainer">
+				<h3 id="outputTitle">Output:</h3>
+				<div id="output" class="output"></div>
+			</div>
+		</div>
+	</div>
 
 
-			Language : <select id="lang" name="lang">
-			  <option value="C">C</option>
-			  <option value="C++">C++</option>
-			  <option value="Java">Java</option>
-			  <option value="Python">Python</option>
-			  <option value="CS">C#</option>
-			  <option value="VB">VB</option>
-			</select>
-		</form>
-		<button id="submitBtn" type="button">Submit my code</button>
-		<div id="output" class="output"></div>
 </body>
 <script src="./public/editor.js"></script>
 <script src="./public/client.js"></script>

@@ -15,9 +15,15 @@ function initEditor(lang) {
         window.editor = monaco.editor.create(document.getElementById('container'), {
             value: baseCode[lang].join('\n'),
             language: language,
+            automaticLayout: true,
+            // fontFamily: '"Source-Code-Pro", "Courier New", monospace',
             fontSize: 17
         });
         initTheme();
+        // $( "#container" ).resizable({
+        //     minWidth: 350,
+        //     maxWidth: $(window).width() / 1.666
+        // });
     });
 }
 

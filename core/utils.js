@@ -1,6 +1,6 @@
 const NS_TO_MS = 1e6;
 
-exports.getPerformance = function(start) {
+global.getPerformance = function(start) {
     const time = process.hrtime(start);
     const sec = time[0];
     const ns = time[1];
