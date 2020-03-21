@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+require('./core/utils');
+
 app.use(express.urlencoded());
 app.use("/public", express.static(__dirname + "/public"));
 
@@ -24,9 +26,9 @@ app.post('/compilecode' , function (req , res ) {
 
 	let callback = (data) => {
 		console.log(data);
-		if 		(data.error)   res.send({state: 'error', response: data.error});
-		else if (data.success) res.send({state: 'success', response: data.success});
-		else if (data.timeout) res.send({state: 'timeout', response: timeout_error});
+		if 		(data.error)   res.send({state: 'error', response: data.error, time: data.time});
+		else if (data.success) res.send({state: 'success', response: data.success, time: data.time});
+		else if (data.timeout) res.send({state: 'timeout', response: timeout_error, time: data.time});
 		else ERR('[-] No data sent to the client');
 	}
 

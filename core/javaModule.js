@@ -2,8 +2,6 @@ const exec  = require('child_process').exec;
 const fs = require('fs');
 const cuid = require('cuid');
 const colors = require('colors');
-const utils = require('./utils');
-
 
 exports.compileJava = function (envData , code , send ){
 
@@ -45,7 +43,7 @@ exports.compileJava = function (envData , code , send ){
 									}
 								}
 								else {
-                                    const time = utils.getPerformance(start);
+                                    const time = getPerformance(start);
 									console.log('INFO: '.green + path + '/' + className + '.java successfully compiled and executed !');
 									let out = { success : stdout, time: time };
 									send(out);

@@ -2,7 +2,6 @@ const exec  = require('child_process').exec;
 const fs = require('fs');
 const cuid = require('cuid');
 const colors = require('colors');
-const utils = require('./utils');
 
 exports.compilePython = function (envData, code, send) {
 
@@ -29,7 +28,7 @@ exports.compilePython = function (envData, code, send) {
 					}
 				}
 				else {
-					const time = utils.getPerformance(start);
+					const time = getPerformance(start);
 					console.log('INFO: '.green + filename + '.py successfully executed !');
 					let out = { success : stdout, time: time };
 					send(out);

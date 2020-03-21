@@ -2,13 +2,12 @@
 
 $('#submitBtn').click(() => {
     let code = getCode();
-    let lang = $('#lang').val();
-
-    submit(code, lang);
+    submit(code, currentLang);
 });
 
 $('.option').click(function() {
     let selectedLang = $(".label", this).text();
+    currentLang = $(".opt-val", this).text();
     updateEditor(selectedLang);
 });
 
@@ -29,14 +28,17 @@ function submit(code, lang) {
             output.addClass('output_error');
             return;
         }
-        output.html(data.response);
 
+        output.html(data.response);
         switch(data.state) {
             case "success":
+                updateOutputTime(data.time);
                 return updateClass(output, 'output_success');
             case "error":
+                updateOutputTime('<i class="fas fa-exclamation-triangle"></i> Hmm, an error occured.');
                 return updateClass(output, 'output_error');
             case "timeout":
+                updateOutputTime('<i class="fas fa-bomb"></i> Too slow !');
                 return updateClass(output, 'output_timeout');
             default:
                 output.val(invalidStateError);
@@ -48,4 +50,9 @@ function submit(code, lang) {
 function updateClass(element, newClass) {
     element.removeClass();
     element.addClass('output ' + newClass);
+}
+
+function updateOutputTime(time) {
+    let outputTime = $('#outputTime');
+    outputTime.html(time);
 }

@@ -1,8 +1,8 @@
+currentLang = 'C++';
+
 /* +++++ init() at the end of file +++++ */
 function init() {
-    let lang = "C++";
-    initEditor(lang);
-    $('#lang').val(lang);
+    initEditor(currentLang);
 }
 
 function initEditor(lang) {
@@ -17,7 +17,7 @@ function initEditor(lang) {
             language: language,
             automaticLayout: true,
             // fontFamily: '"Source-Code-Pro", "Courier New", monospace',
-            fontSize: 17
+            fontSize: 16
         });
         initTheme();
         // $( "#container" ).resizable({
