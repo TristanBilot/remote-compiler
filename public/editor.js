@@ -1,4 +1,5 @@
 currentLang = 'C++';
+running = false;
 
 /* +++++ init() at the end of file +++++ */
 function init() {

@@ -11,6 +11,13 @@ $('.option').click(function() {
     updateEditor(selectedLang);
 });
 
+$('#submitBtn').hover(function() {
+    if (running)
+        $(this).css('cursor', 'default');
+    else
+        $(this).css('cursor', 'pointer');
+});
+
 $(window).on('resize', function(){
     $('#app-cover').css('left', $('#right').width() / 2 - $('#app-cover').width() / 2)
                    .css('top', '20');
@@ -24,17 +31,11 @@ $(document).keydown(function(e) {
     }
 });
 
-$('.view-lines').keydown(function(e) {
-
-    if ((e.ctrlKey || e.metaKey) && e.keyCode === 13) {
-        let code = getCode();
-        submit(code, currentLang);
-    }
-});
-
 function submit(code, lang) {
+    activeLoadBtn();
     $.post( "compilecode", { code: code, lang: lang } )
     .done((data) => {
+        activeRunBtn();
         const noDataError = "A server error occured, please try again.";
         const invalidStateError = "Your code could not be validated.";
         let output = $('#output');
@@ -71,4 +72,18 @@ function updateClass(element, newClass) {
 function updateOutputTime(time) {
     let outputTime = $('#outputTime');
     outputTime.html(time);
+}
+
+function activeRunBtn() {
+    running = false;
+    $('#runIcon').css('display', 'block');
+    $('#loadIcon').css('display', 'none');
+    $('#submitBtn').css('opacity', 1);
+}
+
+function activeLoadBtn() {
+    running = true;
+    $('#runIcon').css('display', 'none');
+    $('#loadIcon').css('display', 'block');
+    $('#submitBtn').css('opacity', 0.6);
 }

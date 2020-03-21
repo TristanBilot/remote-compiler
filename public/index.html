@@ -8,7 +8,9 @@
 	<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script src="./public/lib/monaco-editor/min/vs/loader.js"></script>
 	<link href="./public/style.css" rel="stylesheet"></link>
+	<link href="./public/tooltip.css" rel="stylesheet"></link>
 	<link href="./public/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet"></link>
+
 	<title>Remote Compiler</title>
 </head>
 <body>
@@ -16,8 +18,10 @@
 	<div id="left">
 		<!-- editor -->
 		<div id="container"></div>
-		<button id="submitBtn" type="button">
-			<i class="fa fa-play" aria-hidden="true"></i>&nbsp;Run
+		<button id="submitBtn" type="button" data-tooltip="⌘ + R">
+			<div id="loadIcon" class="fa fa-spinner fa-spin"></div>
+			<div id="runIcon" class="fa fa-play" aria-hidden="true"></div>
+			<div id="runTitle"> &nbsp;Run </div>
 		</button>
 	</div>
 
