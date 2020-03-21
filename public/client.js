@@ -16,6 +16,22 @@ $(window).on('resize', function(){
                    .css('top', '20');
 });
 
+$(document).keydown(function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.keyCode === 82) {
+        e.preventDefault();
+        let code = getCode();
+        submit(code, currentLang);
+    }
+});
+
+$('.view-lines').keydown(function(e) {
+
+    if ((e.ctrlKey || e.metaKey) && e.keyCode === 13) {
+        let code = getCode();
+        submit(code, currentLang);
+    }
+});
+
 function submit(code, lang) {
     $.post( "compilecode", { code: code, lang: lang } )
     .done((data) => {
