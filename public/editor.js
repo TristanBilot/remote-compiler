@@ -77,13 +77,14 @@ function formatLanguage(lang) {
 const baseCode = {
     'Python': [
         'class Algorithm:',
-        '\t\n'
+        '\tprint("Hello")'
     ],
     'C': [
         '#include <stdio.h>',
         '#include <stddef.h>',
         '\nint main() {',
-        '\n\treturn 0;',
+        '\n\tputs("Hello");',
+        '\treturn 0;',
         '}\n'
     ],
     'C++': [
@@ -95,8 +96,9 @@ const baseCode = {
         '}\n'
     ],
     'Java': [
+        'import java.io.*;',
         'class Algorithm {',
-        '\tpublic static void main(String[] args) {\n',
+        '\tpublic static void main(String[] args) {\n\t',
         '\t}',
         '}'
     ]

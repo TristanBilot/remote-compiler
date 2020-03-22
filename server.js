@@ -29,6 +29,8 @@ app.post('/compilecode' , function (req , res ) {
 		if 		(data.error)   res.send({state: 'error', response: data.error, time: data.time});
 		else if (data.success) res.send({state: 'success', response: data.success, time: data.time});
 		else if (data.timeout) res.send({state: 'timeout', response: timeout_error, time: data.time});
+		else if (data.error == '' || data.success == '' || data.timeout == '')
+			res.send({state: 'success', response: ' ', time: data.time});
 		else ERR('[-] No data sent to the client');
 	}
 
@@ -38,7 +40,7 @@ app.post('/compilecode' , function (req , res ) {
 		case "C++":
 			return compiler.compileCPP({cmd: "g++", timeout: timeout}, code, callback);
 		case "Java":
-			return compiler.compileJava(timeout, code, callback);
+			return compiler.compileJava({timeout: timeout}, code, callback);
 		case "Python":
 			return compiler.compilePython(timeout, code, callback);
 		case "CS":

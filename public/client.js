@@ -5,12 +5,6 @@ $('#submitBtn').click(() => {
     submit(code, currentLang);
 });
 
-$('.option').click(function() {
-    let selectedLang = $(".label", this).text();
-    currentLang = $(".opt-val", this).text();
-    updateEditor(selectedLang);
-});
-
 $('#submitBtn').hover(function() {
     if (running)
         $(this).css('cursor', 'default');
@@ -87,3 +81,11 @@ function activeLoadBtn() {
     $('#loadIcon').css('display', 'block');
     $('#submitBtn').css('opacity', 0.6);
 }
+
+function loadScores() {
+    for (let i = 0; i < 20; i++) {
+        $('#scores').append('<li>[$i] Hello</li>'.replace('$i', i));
+    }
+}
+
+// loadScores();

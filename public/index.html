@@ -7,8 +7,10 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 	<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script src="./public/lib/monaco-editor/min/vs/loader.js"></script>
-	<link href="./public/style.css" rel="stylesheet"></link>
-	<link href="./public/tooltip.css" rel="stylesheet"></link>
+	<script src="./public/menu.js"></script>
+	<link href="./public/css/style.css" rel="stylesheet"></link>
+	<link href="./public/css/tooltip.css" rel="stylesheet"></link>
+	<link href="./public/css/menu.css" rel="stylesheet"></link>
 	<link href="./public/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet"></link>
 
 	<title>Remote Compiler</title>
@@ -27,58 +29,51 @@
 
 	<!-- Right part -->
 	<div id="right">
-		<form id="app-cover">
-            <div id="select-box">
-                <input type="checkbox" id="options-view-button">
-                <div id="select-button" class="brd">
-                    <div id="selected-value">
-                        <span>Select a language</span>
-                    </div>
-                    <div id="chevrons">
-                        <i class="fas fa-chevron-up"></i>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                </div>
-                <div id="options">
-                    <div class="option">
-                        <input class="s-c top" type="radio" name="platform" value="codepen">
-                        <input class="s-c bottom" type="radio" name="platform" value="codepen">
-                        <i class="fab fa-python"></i>
-                        <span class="label">Python</span>
-                        <span class="opt-val">Python</span>
-                    </div>
-                    <div class="option">
-                        <input class="s-c top" type="radio" name="platform" value="dribbble">
-                        <input class="s-c bottom" type="radio" name="platform" value="dribbble">
-						<i class="fas fa-file-code"></i>
-                        <span class="label">C++</span>
-                        <span class="opt-val">C++</span>
-                    </div>
-                    <div class="option">
-                        <input class="s-c top" type="radio" name="platform" value="behance">
-                        <input class="s-c bottom" type="radio" name="platform" value="behance">
-                        <i class="fab fa-cuttlefish"></i>
-                        <span class="label">C</span>
-                        <span class="opt-val">C</span>
-                    </div>
-                    <div class="option">
-                        <input class="s-c top" type="radio" name="platform" value="hackerrank">
-                        <input class="s-c bottom" type="radio" name="platform" value="hackerrank">
-						<i class="fab fa-java"></i>
-                        <span class="label">Java</span>
-                        <span class="opt-val">Java</span>
-                    </div>
-                    <div id="option-bg"></div>
-                </div>
-            </div>
-	    </form>
 		<div id="rightContent">
-			<div id="outputContainer">
-				<h3 id="outputTitle">Output:</h3>
-				<div id="output" class="output"></div>
+			<div id="rightContentLeft">
+				<!-- Select tab -->
 
-				<h3 id="outputTitle">Execution time:</h3>
-				<div id="outputTime" class="output"></div>
+				<select class="old-select">
+					<option value="C++"><i class="fas fa-file-code"> C++</i> </option>
+				    <option value="C"><i class="fas fa-file-code"></i> C</option>
+					<option value="Python"><i class="fab fa-python"></i> Python</option>
+				    <option value="Java"><i class="fab fa-java"></i> Java</option>
+				</select>
+
+				<!-- Select button rebuilt -->
+				<div class="new-select">
+				    <div class="selection">
+				        <p>
+				            <span></span>
+				            <i class="line"></i>
+				        </p>
+				        <span></span>
+				    </div>
+				</div>
+				<!-- End select tab -->
+			</div>
+
+			<div id="rightContentRight">
+				<div id="outputContainer">
+					<h3 id="outputTitle">Output:</h3>
+					<div id="output" class="output"></div><br />
+
+					<h3 id="outputTitle">Execution time:</h3>
+					<div id="outputTime" class="output"></div>
+				</div>
+			</div>
+		</div>
+
+
+		<div id="rightBottomContainer">
+			<div id="exoContainer"></div>
+
+			<div id="scoresContainer">
+				<table>
+					<ul id="scores">
+
+					</ul>
+				</table>
 			</div>
 		</div>
 	</div>

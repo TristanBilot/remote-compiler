@@ -9,7 +9,6 @@ exports.compileCPP = function(envData, code, send) {
 	var filename = cuid.slug();
 	var file;
 	var command;
-	var child;
 
 	if(envData.cmd === 'g++') {
 		file = filename + '.cpp';
@@ -22,11 +21,11 @@ exports.compileCPP = function(envData, code, send) {
 	else
 		return ERR('choose either g++ or gcc.');
 
-	fs.writeFile(path + filename +'.cpp', code, function(err) {
+	fs.writeFile(path + file, code, function(err) {
 		if(err)
 			ERR(err);
 		else {
-			INFO(file + ' created.');
+			// INFO(file + ' created.');
 
 			/* COMPILATION */
 			exec(commmand, function(error, stdout, stderr) {

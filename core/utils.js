@@ -11,7 +11,9 @@ global.getPerformance = function(start) {
 }
 
 global.INFO = function(log) {
-    console.log('INFO: '.green + log);
+    let date = new Date();
+    time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    console.log('INFO @ $t : '.replace('$t',time).green + log);
 }
 
 global.WARN = function(log) {
