@@ -60,7 +60,7 @@ exports.compileJava = function (envData , code , send ){
 							exec("kill "+ pids[0] + " " + pids[1], function(error, stdout, stderr) {
 								if(notFinished) {
 									if(error)
-										return ERR(className + ' failed to be killed after ' + envData.timeout + 'ms.')
+										return ERR(className + ' failed to kill after ' + envData.timeout + 'ms.')
 									notFinished = false;
 									WARN(className + ' was killed after ' + envData.timeout + 'ms.');
 									send({ timeout : true });
