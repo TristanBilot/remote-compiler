@@ -45,6 +45,8 @@ app.post('/compilecode' , function (req , res ) {
 			return compiler.compilePython(timeout, code, callback);
 		case "Swift":
 			return compiler.compileSwift({timeout: timeout}, code, callback);
+		case "Objective-C":
+			return compiler.compileObjC({timeout: timeout}, code, callback);
 		case "CS":
 			return compiler.compileCS(timeout, code, callback);
 		case "VB":

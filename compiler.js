@@ -7,6 +7,7 @@ const corePath = './core/';
 const cppModule = require(corePath + 'cppModule.js');
 const javaModule = require(corePath + 'javaModule.js');
 const swiftModule = require(corePath + 'SwiftCompiler.js');
+const objCModule = require(corePath + 'ObjCCompiler.js');
 const pyModule = require(corePath + 'pyModule.js');
 const csModule = require(corePath + 'csModule.js');
 const vbModule = require(corePath + 'vbModule.js');
@@ -31,6 +32,12 @@ exports.compileSwift = function ( envData ,  code , callback ){
 	if(exports.stats)
 		swiftModule.stats = true;
 	swiftModule.compileSwift(envData , code , callback );
+}
+
+exports.compileObjC = function ( envData ,  code , callback ){
+	if(exports.stats)
+		objCModule.stats = true;
+	objCModule.compileObjC(envData , code , callback );
 }
 
 exports.compileCPP = function ( envData ,  code , callback ){

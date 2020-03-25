@@ -24,6 +24,20 @@ global.ERR = function(log) {
     console.log('ERROR: '.red + log);
 }
 
+global.errorManager = function(err, stderr, send) {
+    var errExists = false;
+    if (err) {
+        ERR(stderr + err);
+        errExists = true;
+    }
+    if (stderr) {
+        ERR(stderr);
+        send({ error : stderr });
+        errExists = true;
+    }
+    return errExists;
+}
+
 global.err_infinite_loop = 'You might have initialized an infinite loop.';
 global.err_compiling = ' contained an error while compiling.';
 global.err_executing = ' contained an error while executing.';

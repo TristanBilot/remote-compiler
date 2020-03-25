@@ -2,18 +2,20 @@ const exec  = require('child_process').exec;
 const fs = require('fs');
 const cuid = require('cuid');
 
-exports.compileSwift = function (envData, code, send) {
-    const file = cuid.slug() + '.swift';
-    const path = './temp/' + file;
-    const chmod = 'chmod +x ' + path;
-    const execute = path
+exports.compileObjC = function (envData, code, send) {
+    const filename = cuid.slug();
+    const file = filename + '.m'
+    const path = './temp/';
+    const compile = 'clang -framework Foundation ' + path + file + ' -o ' + path + filename;
+    const execute = path + filename;
 
-    fs.writeFile(path, code, function(err) {
+    fs.writeFile(path + file, code, function(err) {
         if(err)
             return ERR(err);
-        exec(chmod, function(error, stdout, stderr) {
+        exec(compile, function(error, stdout, stderr) {
             if (errorManager(error, stderr, send))
                 return;
+            INFO(file + succ_compiling);
             const start = process.hrtime();
             exec(execute, function(error, stdout, stderr) {
                 if (errorManager(error, stderr, send))

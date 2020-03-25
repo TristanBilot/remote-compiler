@@ -71,6 +71,8 @@ function formatLanguage(lang) {
     let language = lang.charAt(0).toLowerCase() + lang.substring(1);
     if (lang === "C++")
         language = "cpp";
+    if (lang === "Objective-C")
+        language = "objective-c";
     return language;
 }
 
@@ -104,7 +106,16 @@ const baseCode = {
     ],
     'Swift': [
         '#!/usr/bin/swift',
-        '\n'
+        '\nprint("Hello !")'
+    ],
+    'Objective-C': [
+        '#import <Foundation/Foundation.h>\n',
+        'int main(int argc, const char * argv[]) {\n',
+        '\t@autoreleasepool {',
+        '\t\tprintf("Hello !");',
+        '\t}',
+        '\treturn 0;',
+        '}'
     ]
 };
 
