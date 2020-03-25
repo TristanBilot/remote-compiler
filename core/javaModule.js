@@ -7,7 +7,7 @@ exports.compileJava = function (envData , code , send ){
 
     const className = "Algorithm";
     const dirname = cuid.slug();
-    const path = './temp/'+dirname;
+    const path = './temp/'+ dirname;
     const compile = "cd " + path + " && javac " + className + ".java";
     const execute = "cd " + path + " && java " + className;
     const filename = className + ".java";

@@ -43,6 +43,8 @@ app.post('/compilecode' , function (req , res ) {
 			return compiler.compileJava({timeout: timeout}, code, callback);
 		case "Python":
 			return compiler.compilePython(timeout, code, callback);
+		case "Swift":
+			return compiler.compileSwift({timeout: timeout}, code, callback);
 		case "CS":
 			return compiler.compileCS(timeout, code, callback);
 		case "VB":

@@ -101,6 +101,10 @@ const baseCode = {
         '\tpublic static void main(String[] args) {\n\t',
         '\t}',
         '}'
+    ],
+    'Swift': [
+        '#!/usr/bin/swift',
+        '\n'
     ]
 };
 
