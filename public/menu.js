@@ -1,5 +1,3 @@
-// Design tiré du site flatuicolors.com
-
 $(document).ready(function(){
 
     var countOption = $('.old-select option').length;

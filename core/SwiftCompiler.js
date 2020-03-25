@@ -11,12 +11,14 @@ exports.compileSwift = function (envData, code, send) {
     fs.writeFile(path, code, function(err) {
         if(err)
             return ERR(err);
+
         exec(chmod, function(error, stdout, stderr) {
-            if (errorManager(error, stderr, send))
+            if (errorManager(file, error, stderr, send))
                 return;
             const start = process.hrtime();
+            
             exec(execute, function(error, stdout, stderr) {
-                if (errorManager(error, stderr, send))
+                if (errorManager(file, error, stderr, send))
                     return;
                 const time = getPerformance(start);
                 INFO(file + succ_executing);

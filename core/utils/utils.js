@@ -24,14 +24,15 @@ global.ERR = function(log) {
     console.log('ERROR: '.red + log);
 }
 
-global.errorManager = function(err, stderr, send) {
+global.errorManager = function(file, err, stderr, send) {
     var errExists = false;
     if (err) {
-        ERR(stderr + err);
+        ERR(file + " " + stderr);
         errExists = true;
     }
     if (stderr) {
-        ERR(stderr);
+        if (!err)
+            ERR(file + " " + stderr);
         send({ error : stderr });
         errExists = true;
     }

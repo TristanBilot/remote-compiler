@@ -12,13 +12,15 @@ exports.compileObjC = function (envData, code, send) {
     fs.writeFile(path + file, code, function(err) {
         if(err)
             return ERR(err);
+
         exec(compile, function(error, stdout, stderr) {
-            if (errorManager(error, stderr, send))
+            if (errorManager(file, error, stderr, send))
                 return;
             INFO(file + succ_compiling);
             const start = process.hrtime();
+
             exec(execute, function(error, stdout, stderr) {
-                if (errorManager(error, stderr, send))
+                if (errorManager(file, error, stderr, send))
                     return;
                 const time = getPerformance(start);
                 INFO(file + succ_executing);

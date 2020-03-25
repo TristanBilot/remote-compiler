@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-require('./core/utils');
+require('./core/utils/utils');
 
 app.use(express.urlencoded());
 app.use("/public", express.static(__dirname + "/public"));
@@ -47,21 +47,11 @@ app.post('/compilecode' , function (req , res ) {
 			return compiler.compileSwift({timeout: timeout}, code, callback);
 		case "Objective-C":
 			return compiler.compileObjC({timeout: timeout}, code, callback);
-		case "CS":
-			return compiler.compileCS(timeout, code, callback);
-		case "VB":
-			return compiler.compileVB(timeout, code, callback);
 		default:
-			return console.log("Invalid language".red);
+			return ERR("Invalid language");
 	}
-});
-
-app.get('/fullStat' , function(req , res ){
-    compiler.fullStat(function(data){
-        res.send(data);
-    });
 });
 
 app.listen(PORT);
 
-compiler.fullStat();
+compiler.stats();

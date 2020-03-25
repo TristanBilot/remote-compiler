@@ -100,7 +100,8 @@ const baseCode = {
     'Java': [
         'import java.io.*;',
         'class Algorithm {',
-        '\tpublic static void main(String[] args) {\n\t',
+        '\tpublic static void main(String[] args) {\n',
+        '\t\tSystem.out.println("Hello !");',
         '\t}',
         '}'
     ],
