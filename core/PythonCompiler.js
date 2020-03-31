@@ -20,6 +20,6 @@ exports.compilePython = function (envData, code, send) {
 			const time = getPerformance(start);
 			INFO(filename + '.py' + succ_executing);
 			send({ success : stdout, time: time });
-	    });
+	    });// some comment test
 	});
 }
