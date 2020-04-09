@@ -28,8 +28,13 @@ body {
     color: #FF8801;
 }
 
+.outputTitle {
+    margin-bottom: 4px;
+}
+
 .output {
     background: #fff;
+    color: #151619;
     padding: 20px;
     border: 1px solid rgb(220,220,220);
     border-radius: 5px;
@@ -71,10 +76,10 @@ body {
     color: #fff;
 }
 
-#outputContainer {
+/* #outputContainer {
     width: 80%;
     height: 100%;
-}
+} */
 
 #right {
     position: relative;
@@ -111,16 +116,36 @@ body {
 }
 
 #exoContainer {
+    width: 88%;
+    padding: 30px;
+    background: #303030;
+    border-radius: 5px;
+    color: #fff;
+    margin-left: 20px;
+}
+
+#testScoresContainer {
+    width: 88%;
+    margin-top: 30px;
+    margin-left: 20px;
+    padding: 30px;
+}
+
+.halfContainer {
+    background: #303030;
+    border-radius: 5px;
+    color: #fff;
+    background: #303030;
+    padding: 30px;
+}
+
+#testContainer {
     width: 40%;
-    /* background: red; */
     float: left;
-    height:20px;
 }
 
 #scoresContainer {
-    width: 60%;
-    /* background: green; */
-    height:20px;
+    width: 40%;
     float: right;
 }
 

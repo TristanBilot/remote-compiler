@@ -88,4 +88,4 @@ function loadScores() {
     }
 }
 
-// loadScores();
+loadScores();
