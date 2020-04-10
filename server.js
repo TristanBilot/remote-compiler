@@ -1,10 +1,16 @@
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
+require('dotenv/config');
 const app = express();
 require('./core/utils/utils');
 
 app.use(express.urlencoded());
 app.use("/public", express.static(__dirname + "/public"));
+app.use(express.json());
+
+const exercisesRoute = require('./routes/routes');
+app.use('/exercises', exercisesRoute);
 
 const compiler = require('./compiler');
 compiler.init({stats : true});
@@ -55,3 +61,10 @@ app.post('/compilecode' , function (req , res ) {
 app.listen(PORT);
 
 compiler.stats();
+
+mongoose.connect(process.env.DB_CONNECTION, {useUnifiedTopology: true}, () => {
+    console.log('[ ok ] connected to database');
+})
+.then(() => {
+    require('./database/methods/insert');
+});

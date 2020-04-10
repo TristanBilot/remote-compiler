@@ -1,4 +1,5 @@
 currentLang = 'C++';
+currentBaseCode = "";
 running = false;
 
 /* +++++ init() at the end of file +++++ */
@@ -14,13 +15,14 @@ function initEditor(lang) {
     require.config({ paths: { 'vs': './public/lib/monaco-editor/min/vs' }});
     require(['vs/editor/editor.main'], function() {
         window.editor = monaco.editor.create(document.getElementById('container'), {
-            value: baseCode[lang].join('\n'),
+            // value: currentBaseCode,
             language: language,
             automaticLayout: true,
             // fontFamily: '"Source-Code-Pro", "Courier New", monospace',
             fontSize: 16
         });
         initTheme();
+        updateEditor(currentLang);
         // $( "#container" ).resizable({
         //     minWidth: 350,
         //     maxWidth: $(window).width() / 1.666
@@ -55,11 +57,12 @@ function initTheme() {
 }
 
 function updateEditor(lang) {
-    let language = formatLanguage(lang);
-    let code = baseCode[lang].join('\n');
-
-    window.editor.setValue(code);
-    monaco.editor.setModelLanguage(window.editor.getModel(), language);
+    $.get( "http://localhost:8080/exercises/fetchExercise/5e8f8550c1d23a83f9846fe8", function( data ) {
+        let language = formatLanguage(lang);
+        currentBaseCode = formatBaseCode(lang, data[0]["code"][language]).join('\n');
+        window.editor.setValue(currentBaseCode);
+        monaco.editor.setModelLanguage(window.editor.getModel(), language);
+    });
 }
 
 function getCode() {
@@ -76,49 +79,66 @@ function formatLanguage(lang) {
     return language;
 }
 
-const baseCode = {
-    'Python': [
-        'class Algorithm:',
-        '\tprint("Hello")'
-    ],
-    'C': [
-        '#include <stdio.h>',
-        '#include <stddef.h>',
-        '\nint main() {',
-        '\n\tputs("Hello");',
-        '\treturn 0;',
-        '}\n'
-    ],
-    'C++': [
-        '#include <iostream>',
-        'using namespace std;',
-        '\nint main() {',
-        '\n\tcout << "Hello";',
-        '\treturn 0;',
-        '}\n'
-    ],
-    'Java': [
-        'import java.io.*;',
-        'class Algorithm {',
-        '\tpublic static void main(String[] args) {\n',
-        '\t\tSystem.out.println("Hello !");',
-        '\t}',
-        '}'
-    ],
-    'Swift': [
-        '#!/usr/bin/swift',
-        '\nprint("Hello !")'
-    ],
-    'Objective-C': [
-        '#import <Foundation/Foundation.h>\n',
-        'int main(int argc, const char * argv[]) {\n',
-        '\t@autoreleasepool {',
-        '\t\tprintf("Hello !");',
-        '\t}',
-        '\treturn 0;',
-        '}'
-    ]
-};
+function formatBaseCode(lang, functionProto) {
+    switch (lang) {
+        case 'Python':
+            return [functionProto + ':', '\t'];
+        case 'C':
+            return ['#include <stddef.h>', '', functionProto + ' {', '', '}'];
+        case 'C++':
+            return ['using namespace std;', '', functionProto + ' {', '', '}'];
+        case 'Java':
+            return ['import java.io.*;', '', 'class Algorithm {', '\t' + functionProto + ' {', '', '\t}', '}'];
+        case 'Swift':
+            return ['#!/usr/bin/swift', '', functionProto + ' {', '', '}'];
+        case 'Objective-C':
+            return ['#import <Foundation/Foundation.h>', '', functionProto + ' {', '', '}']
+        default:
+            return "Invalid Language (formatBaseCode())";
+    }
+}
+    // 'Python': [
+    //     'class Algorithm:',
+    //     '\tprint("Hello")'
+    // ],
+    // 'C': [
+    //     '#include <stdio.h>',
+    //     '#include <stddef.h>',
+    //     '\nint main() {',
+    //     '\n\tputs("Hello");',
+    //     '\treturn 0;',
+    //     '}\n'
+    // ],
+    // 'C++': [
+    //     '#include <iostream>',
+    //     'using namespace std;',
+    //     '\nint main() {',
+    //     '\n\tcout << "Hello";',
+    //     '\treturn 0;',
+    //     '}\n'
+    // ],
+    // 'Java': [
+    //     'import java.io.*;',
+    //     'class Algorithm {',
+    //     '\tpublic static void main(String[] args) {\n',
+    //     '\t\tSystem.out.println("Hello !");',
+    //     '\t}',
+    //     '}'
+    // ],
+    // 'Swift': [
+    //     '#!/usr/bin/swift',
+    //     '\nprint("Hello !")'
+    // ],
+    // 'Objective-C': [
+    //     '#import <Foundation/Foundation.h>\n',
+    //     'int main(int argc, const char * argv[]) {\n',
+    //     '\t@autoreleasepool {',
+    //     '\t\tprintf("Hello !");',
+    //     '\t}',
+    //     '\treturn 0;',
+    //     '}'
+    // ]
+// };
 
 /* +++++ Editor init +++++ */
 init();

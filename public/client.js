@@ -58,6 +58,19 @@ function submit(code, lang) {
     })
 }
 
+function fetch() {
+    $.get( "http://localhost:8080/exercises/fetchExercise/5e8f8550c1d23a83f9846fe8", function( data ) {
+        let content = $('#exoContainer');
+        let input  = $('#input');
+        let expected  = $('#outputExpected');
+        
+        content.html(data[0]["content"]);
+        input.html(data[0]["input"]);
+        expected.html(data[0]["expected"]);
+    });
+}
+fetch();
+
 function updateClass(element, newClass) {
     element.removeClass();
     element.addClass('output ' + newClass);
