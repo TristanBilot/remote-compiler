@@ -27,7 +27,11 @@ $(document).keydown(function(e) {
 
 function submit(code, lang) {
     activeLoadBtn();
-    $.post( "compilecode", { code: code, lang: lang } )
+    $.post( "compilecode", { 
+        code: code, 
+        lang: lang, 
+        exerciseId: sessionStorage.getItem('exerciseId')
+    })
     .done((data) => {
         activeRunBtn();
         const noDataError = "A server error occured, please try again.";
@@ -59,10 +63,11 @@ function submit(code, lang) {
 }
 
 function fetch() {
-    $.get( "http://localhost:8080/exercises/fetchExercise/5e8f8550c1d23a83f9846fe8", function( data ) {
+    $.get(fetchExerciseBaseURL + sessionStorage.getItem('exerciseId'), function( data ) {
         let content = $('#exoContainer');
         let input  = $('#input');
         let expected  = $('#outputExpected');
+        console.log(data);
         
         content.html(data[0]["content"]);
         input.html(data[0]["input"]);

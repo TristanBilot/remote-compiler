@@ -1,6 +1,9 @@
 currentLang = 'C++';
 currentBaseCode = "";
 running = false;
+fetchExerciseBaseURL = "http://localhost:8080/exercises/fetchExercise/";
+
+sessionStorage.setItem('exerciseId', '5e91ef9e4d0ae2c9f5788127');
 
 /* +++++ init() at the end of file +++++ */
 function init() {
@@ -57,7 +60,7 @@ function initTheme() {
 }
 
 function updateEditor(lang) {
-    $.get( "http://localhost:8080/exercises/fetchExercise/5e8f8550c1d23a83f9846fe8", function( data ) {
+    $.get(fetchExerciseBaseURL + sessionStorage.getItem('exerciseId'), function( data ) {
         let language = formatLanguage(lang);
         currentBaseCode = formatBaseCode(lang, data[0]["code"][language]).join('\n');
         window.editor.setValue(currentBaseCode);
@@ -86,7 +89,7 @@ function formatBaseCode(lang, functionProto) {
         case 'C':
             return ['#include <stddef.h>', '', functionProto + ' {', '', '}'];
         case 'C++':
-            return ['using namespace std;', '', functionProto + ' {', '', '}'];
+            return ['#include <iostream>', 'using namespace std;', '', functionProto + ' {', '', '}'];
         case 'Java':
             return ['import java.io.*;', '', 'class Algorithm {', '\t' + functionProto + ' {', '', '\t}', '}'];
         case 'Swift':

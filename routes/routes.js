@@ -8,6 +8,8 @@ router.get('/fetchExercise/:id', async (req, res) => {
         const useless = await Exercise.find({_id: req.params.id})
         .then(function(ex) {
             res.json(ex);
+            console.log(ex);
+            
         });
     } catch (err) {
         res.json({ message: err });

@@ -6,7 +6,9 @@ const ExerciseSchema = mongoose.Schema({
     code: Object,
     input: String,
     expected: String, /* first test */
-    tests: [String],
+    funcName: String,
+    paramName: [String],
+    tests: Object,
     ranking: String//Ranking
 });
 
