@@ -28,7 +28,7 @@ app.post('/compilecode' , async function (req , res ) {
 
 	let lang = req.body.lang;
 	let exId = req.body.exerciseId;
-	let code = await codeFormater.formatCode(req.body.code, lang, exId, function(formatedCode) {
+	await codeFormater.formatCode(req.body.code, lang, exId, function(formatedCode) {
 		let callback = (data) => {
 			console.log(data);
 			if 		(data.error)   res.send({state: 'error', response: data.error, time: data.time});

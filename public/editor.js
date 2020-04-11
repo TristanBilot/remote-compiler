@@ -91,7 +91,7 @@ function formatBaseCode(lang, functionProto) {
         case 'C++':
             return ['#include <iostream>', 'using namespace std;', '', functionProto + ' {', '', '}'];
         case 'Java':
-            return ['import java.io.*;', '', 'class Algorithm {', '\t' + functionProto + ' {', '', '\t}', '}'];
+            return ['import java.io.*;', '', 'class Algorithm {', '\t' + 'static ' + functionProto + ' {', '', '\t}', '}'];
         case 'Swift':
             return ['#!/usr/bin/swift', '', functionProto + ' {', '', '}'];
         case 'Objective-C':
