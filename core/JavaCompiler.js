@@ -33,12 +33,12 @@ exports.compileJava = function (options, code, send) {
 				});
 			});
 
-            if(options.timeout) {
+            if (options.timeout) {
 				setTimeout(function() {
 					let pids = pid.split('\n');
 					exec("kill "+ pids[0] + " " + pids[1], function(error, stdout, stderr) {
-						if(notFinished) {
-							if(error)
+						if (notFinished) {
+							if (error)
 								return ERR(className + ' failed to kill after ' + options.timeout + 'ms.')
 							notFinished = false;
 							WARN(className + ' was killed after ' + options.timeout + 'ms.');

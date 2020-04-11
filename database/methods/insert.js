@@ -8,7 +8,7 @@ ex.insertExercise(
         cpp: "int fib(int n)",
         python: "def fib(n)",
         java: "int fib(int n)",
-        swift: "func fib(n: Int)",
+        swift: "func fib(n: Int) -> Int",
         "objective-c": "int fib(int n)"
     },
     "4",

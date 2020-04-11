@@ -3,7 +3,7 @@ currentBaseCode = "";
 running = false;
 fetchExerciseBaseURL = "http://localhost:8080/exercises/fetchExercise/";
 
-sessionStorage.setItem('exerciseId', '5e91ef9e4d0ae2c9f5788127');
+sessionStorage.setItem('exerciseId', '5e921cb1f81e42dbeec6545d');
 
 /* +++++ init() at the end of file +++++ */
 function init() {

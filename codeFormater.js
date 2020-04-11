@@ -34,20 +34,33 @@ exports.formatCode = async function(code, lang, exId, closure) {
                     return closure(code);
 
                 case 'Java':
-                    for (let i = code.length- 1; i >= 0; i--)
-                        if (code[i] === '}') {
-                            console.log(typeof code);
-                            
+                    for (let i = code.length- 1; i >= 0; i--) {
+                        if (code[i] === '}') { /* remove last } to add main in Algorithm class */
                             code = code.replaceAt(i, ' ');
                             break;
                         }
-                        
+                    }
                     code += '\npublic static void main(String[] args) {\n';
                     for (const [key, value] of Object.entries(ex[0]['tests'])) {
                         params = (typeof key === "string") ? key : key.join(',');
                         code += ('\tassert ' + funcName + '(' + params + ') == ' + value + ';\n');
                     }
                     code += '\t}\n}';
+                    return closure(code);
+
+                case 'Swift':
+                    let paramNames = ex[0]['paramName'];
+                    for (const [key, value] of Object.entries(ex[0]['tests'])) {
+                        params = (typeof key === "string") ? key : key.join(',');
+                        code += ('\nassert(' + funcName + '(');
+                        for (let i = 0; i < paramNames.length; i++) {
+                            code += paramNames[i] + ': ';
+                            code += (typeof key === "string") ? key : key[i];
+                            if (i != paramNames.length - 1)
+                                code += ',';
+                        }
+                        code += ') == ' + value + ')';
+                    }
                     return closure(code);
                 default: console.log("Error on code formatter.");
                 }
