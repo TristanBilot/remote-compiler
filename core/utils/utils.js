@@ -24,7 +24,8 @@ global.ERR = function(log) {
     console.log('ERROR: '.red + log);
 }
 
-global.errorManager = function(file, err, stderr, send) {
+global.errorManager = function(file, err, stderr, send, stdout) {
+    console.log('\n\n=====>'+stdout);
     var errExists = false;
     if (err) {
         ERR(file + " " + stderr);
@@ -33,7 +34,14 @@ global.errorManager = function(file, err, stderr, send) {
     if (stderr) {
         if (!err)
             ERR(file + " " + stderr);
-        send({ error : stderr });
+        if (stderr.search('assert') != -1 || stderr.search('Assertion') != -1)
+        {
+            console.log("ziziziziiziziz");
+            send({ stdout: stdout, error : 'A hidden test failed !' });
+        }
+            
+        else
+            send({ error : stderr });
         errExists = true;
     }
     return errExists;

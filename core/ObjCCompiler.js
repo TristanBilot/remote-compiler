@@ -14,13 +14,13 @@ exports.compileObjC = function (envData, code, send) {
             return ERR(err);
 
         exec(compile, function(error, stdout, stderr) {
-            if (errorManager(file, error, stderr, send))
+            if (errorManager(file, error, stderr, send, stdout))
                 return;
             INFO(file + succ_compiling);
             const start = process.hrtime();
 
             exec(execute, function(error, stdout, stderr) {
-                if (errorManager(file, error, stderr, send))
+                if (errorManager(file, error, stderr, send, stdout))
                     return;
                 const time = getPerformance(start);
                 INFO(file + succ_executing);

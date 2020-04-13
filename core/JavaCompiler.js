@@ -19,13 +19,13 @@ exports.compileJava = function (options, code, send) {
             var notFinished = true;
 
 			exec(compile, function(error, stdout, stderr) {
-                if (errorManager(dirname, error, stderr, send))
+                if (errorManager(dirname, error, stderr, send, stdout))
                     return notFinished = false;
 				INFO(filename + succ_compiling);
                 const start = process.hrtime();
 
 				exec(execute, function(error, stdout, stderr) {
-					if (errorManager(dirname, error, stderr, send))
+					if (errorManager(dirname, error, stderr, send, stdout))
                         return notFinished = false;
                     const time = getPerformance(start);
 					INFO(filename + succ_executing);

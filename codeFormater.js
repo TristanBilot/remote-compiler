@@ -18,7 +18,11 @@ exports.formatCode = async function(code, lang, exId, closure) {
                 case 'C':
                     if (lang === 'C')
                         code += '\n#include <assert.h>\n';
-                    code += ('\n' + 'int main() {\n')
+                    code += '\n' + 'int main() {\n';
+
+                    firstTestKey = Object.keys(ex[0]["tests"])[0];
+                    params = (typeof firstTestKey === "string") ? firstTestKey : firstTestKey.join(',');
+                    code += 'printf(\"%d\\n\", ' + funcName + '(' + params + '));';
                     for (const [key, value] of Object.entries(ex[0]['tests'])) {
                         params = (typeof key === "string") ? key : key.join(',');
                         code += ('\tassert(' + funcName + '(' + params + ') == ' + value + ');\n');
@@ -49,18 +53,35 @@ exports.formatCode = async function(code, lang, exId, closure) {
                     return closure(code);
 
                 case 'Swift':
-                    let paramNames = ex[0]['paramName'];
-                    for (const [key, value] of Object.entries(ex[0]['tests'])) {
-                        params = (typeof key === "string") ? key : key.join(',');
-                        code += ('\nassert(' + funcName + '(');
-                        for (let i = 0; i < paramNames.length; i++) {
-                            code += paramNames[i] + ': ';
-                            code += (typeof key === "string") ? key : key[i];
-                            if (i != paramNames.length - 1)
-                                code += ',';
-                        }
-                        code += ') == ' + value + ')';
-                    }
+                    firstTestKey = Object.keys(ex[0]["tests"])[0];
+                    code += '\nprint(' + funcName + '(';
+                    params = (typeof firstTestKey === "string") ? firstTestKey : firstTestKey.join(',');
+                    code += params;
+                    code += '))';
+                    code += " assert(fib(7) == 13)";
+                    // for (const [key, value] of Object.entries(ex[0]['tests'])) {
+                    //     params = (typeof key === "string") ? key : key.join(',');
+                    //     code += ('\nassert(' + funcName + '(' + params + ') == ' + value + ')');
+                    // }
+
+                    // for (const [key, value] of Object.entries(ex[0]['tests'])) {
+                    //     if (!printed)
+                    //         code += '\nprint(' + funcName + '(';
+                    //     else
+                    //         code += ('\nassert(' + funcName + '(');
+                    //     for (let i = 0; i < paramNames.length; i++) {
+                    //         code += paramNames[i] + ': ';
+                    //         code += (typeof key === "string") ? key : key[i];
+                    //         if (i != paramNames.length - 1)
+                    //             code += ',';
+                    //     }
+                    //     if (!printed) {
+                    //         code +=  '))';
+                    //         printed = !printed;
+                    //     }
+                    //     else
+                    //         code += ') == ' + value + ')';
+                    // }
                     return closure(code);
                 default: console.log("Error on code formatter.");
                 }

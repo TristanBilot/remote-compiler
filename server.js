@@ -31,7 +31,7 @@ app.post('/compilecode' , async function (req , res ) {
 	await codeFormater.formatCode(req.body.code, lang, exId, function(formatedCode) {
 		let callback = (data) => {
 			console.log(data);
-			if 		(data.error)   res.send({state: 'error', response: data.error, time: data.time});
+			if 		(data.error)   res.send({state: 'error', response: data.error, stdout: data.stdout, time: data.time});
 			else if (data.success) res.send({state: 'success', response: data.success, time: data.time});
 			else if (data.timeout) res.send({state: 'timeout', response: timeout_error, time: data.time});
 			else if (data.error == '' || data.success == '' || data.timeout == '')

@@ -1,11 +1,9 @@
 const Exercise = require('../model/Exercise');
 
-var insertExercise = async (content, code, input, expected, funcName, paramName, tests) => {
+var insertExercise = async (content, code, funcName, paramName, tests) => {
     const ex = new Exercise({
         content: content,
         code: code,
-        input: input,
-        expected: expected,
         funcName: funcName,
         paramName: paramName,
         tests: tests

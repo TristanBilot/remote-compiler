@@ -36,6 +36,7 @@ function submit(code, lang) {
         activeRunBtn();
         const noDataError = "A server error occured, please try again.";
         const invalidStateError = "Your code could not be validated.";
+        const basicError = 'Hmm, an error occured.';
         let output = $('#output');
 
         if (!data || !data.response || !data.state) {
@@ -43,14 +44,16 @@ function submit(code, lang) {
             output.addClass('output_error');
             return;
         }
-
-        output.html(data.response);
+        console.log(data);
+        
+        output.html((data.stdout ? data.stdout : ''));
         switch(data.state) {
             case "success":
                 updateOutputTime(data.time);
+                output.html((data.response ? data.response : ''));
                 return updateClass(output, 'output_success');
             case "error":
-                updateOutputTime('<i class="fas fa-exclamation-triangle"></i> Hmm, an error occured.');
+                updateOutputTime('<i class="fas fa-exclamation-triangle"></i> ' + data.response ? data.response : basicError);
                 return updateClass(output, 'output_error');
             case "timeout":
                 updateOutputTime('<i class="fas fa-bomb"></i> Too slow !');
@@ -67,11 +70,13 @@ function fetch() {
         let content = $('#exoContainer');
         let input  = $('#input');
         let expected  = $('#outputExpected');
-        console.log(data);
+
+        let firstTestKey = Object.keys(data[0]["tests"])[0];
+        let firstTestValue = Object.values(data[0]["tests"])[0];
         
         content.html(data[0]["content"]);
-        input.html(data[0]["input"]);
-        expected.html(data[0]["expected"]);
+        input.html(typeof firstTestKey === 'string' ? firstTestKey : firstTestKey.join(', '));
+        expected.html(firstTestValue);
     });
 }
 fetch();

@@ -34,11 +34,8 @@ exports.compileCPP = function(options, code, send) {
 			const start = process.hrtime();
 
 			exec(execute, function(error, stdout, stderr) {
-				if(error) {
-					ERR(file + err_executing);
-					notFinished = false;
-					return send({ error : stderr });
-				}
+				if (errorManager(file, error, stderr, send, stdout))
+                	return notFinished = false;
 				const time = getPerformance(start);
 				if (notFinished) {
 					notFinished = false;
