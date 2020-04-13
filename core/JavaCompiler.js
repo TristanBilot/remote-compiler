@@ -32,24 +32,33 @@ exports.compileJava = function (options, code, send) {
 					send({ success : stdout, time: time });
 				});
 			});
-
-            if (options.timeout) {
-				setTimeout(function() {
-					let pids = pid.split('\n');
-					exec("kill "+ pids[0] + " " + pids[1], function(error, stdout, stderr) {
-						if (notFinished) {
-							if (error)
-								return ERR(className + ' failed to kill after ' + options.timeout + 'ms.')
-							notFinished = false;
-							WARN(className + ' was killed after ' + options.timeout + 'ms.');
-							send({ timeout : true });
-						}
-					});
-				}, options.timeout);
-			}
-			exec('pgrep -f /bin/sh -c cd ./temp/' + className + '&& java Algorithm', function(err, stdout, stderr) {
-			 	pid = stdout;
-			});
+			processKiller(notFinished, options.timeout, send, 'Java', path);
+            // if (options.timeout) {
+			// 	setTimeout(function() {
+			// 		console.log('pid: ' + pid);
+					
+			// 		var pids = pid.split('\n');
+			// 		pids = pids.join(' ');
+			// 		console.log('====> '+pids);
+					
+			// 		exec("kill "+ pids, function(error, stdout, stderr) {
+			// 			console.log(stderr);
+						
+			// 			if (notFinished) {
+			// 				if (error)
+			// 					return ERR(className + ' failed to kill after ' + options.timeout + 'ms.')
+			// 				notFinished = false;
+			// 				WARN(className + ' was killed after ' + options.timeout + 'ms.');
+			// 				send({ timeout : true });
+			// 			}
+			// 		});
+			// 	}, options.timeout);
+			// }
+			// exec('pgrep -f \'/bin/sh -c cd ' + path + ' && java Algorithm\'', function(err, stdout, stderr) {
+			// 	console.log('pgrep -f \'/bin/sh -c cd ' + path + ' && java Algorithm\'');
+				
+			//  	pid = stdout;
+			// });
 		});
 	});
 }

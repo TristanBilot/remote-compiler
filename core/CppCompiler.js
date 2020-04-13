@@ -43,24 +43,25 @@ exports.compileCPP = function(options, code, send) {
 					return send({ success : stdout, time: time });
 				}
 			});
+			processKiller(notFinished, options.timeout, send, 'C++', filename);
 
-			if(options.timeout) {
-				setTimeout(function () {
-					let pids = pid.split('\n');
-					exec("kill "+ pids[0] + " " + pids[1], function(error, stdout, stderr) {
-						if(notFinished) {
-							if(error)
-								return ERR(file + ' failed to be killed after ' + options.timeout + 'ms.')
-							notFinished = false;
-							WARN(file + ' was killed after ' + options.timeout + 'ms.');
-							return send({ timeout : true });
-						}
-					});
-				}, options.timeout);
-			}
-			exec('pgrep -f ./' + filename, function(err, stdout, stderr) {
-			 	pid = stdout;
-			});
+			// if(options.timeout) {
+			// 	setTimeout(function () {
+			// 		let pids = pid.split('\n');
+			// 		exec("kill "+ pids[0] + " " + pids[1], function(error, stdout, stderr) {
+			// 			if(notFinished) {
+			// 				if(error)
+			// 					return ERR(file + ' failed to be killed after ' + options.timeout + 'ms.')
+			// 				notFinished = false;
+			// 				WARN(file + ' was killed after ' + options.timeout + 'ms.');
+			// 				return send({ timeout : true });
+			// 			}
+			// 		});
+			// 	}, options.timeout);
+			// }
+			// exec('pgrep -f ./' + filename, function(err, stdout, stderr) {
+			//  	pid = stdout;
+			// });
 		});
 	});
 }

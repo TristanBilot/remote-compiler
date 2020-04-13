@@ -48,7 +48,7 @@ app.post('/compilecode' , async function (req , res ) {
 			case "Java":
 				return compiler.compileJava({timeout: timeout}, formatedCode, callback);
 			case "Python":
-				return compiler.compilePython(timeout, formatedCode, callback);
+				return compiler.compilePython({timeout: timeout}, formatedCode, callback);
 			case "Swift":
 				return compiler.compileSwift({timeout: timeout}, formatedCode, callback);
 			case "Objective-C":
