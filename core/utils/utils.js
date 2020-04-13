@@ -34,12 +34,10 @@ global.errorManager = function(file, err, stderr, send, stdout) {
     if (stderr) {
         if (!err)
             ERR(file + " " + stderr);
-        if (stderr.search('assert') != -1 || stderr.search('Assertion') != -1)
-        {
-            console.log("ziziziziiziziz");
+        if (stderr.search('assert') != -1 ||
+            stderr.search('Assertion') != -1 ||  // cpp, c
+            stderr.search('java.lang.RuntimeException') != -1)        // Java
             send({ stdout: stdout, error : 'A hidden test failed !' });
-        }
-            
         else
             send({ error : stderr });
         errExists = true;

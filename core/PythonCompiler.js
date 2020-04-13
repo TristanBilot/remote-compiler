@@ -13,10 +13,8 @@ exports.compilePython = function (envData, code, send) {
 		const start = process.hrtime();
 
 		exec(execute, function(error, stdout, stderr) {
-			if(error) {
-				ERR(filename + '.py' + err_executing);
-				return send({ error : stderr });
-			}
+			if (errorManager(filename, error, stderr, send, stdout))
+                return;
 			const time = getPerformance(start);
 			INFO(filename + '.py' + succ_executing);
 			send({ success : stdout, time: time });

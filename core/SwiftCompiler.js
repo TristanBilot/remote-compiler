@@ -18,8 +18,6 @@ exports.compileSwift = function (envData, code, send) {
             const start = process.hrtime();
             
             exec(execute, function(error, stdout, stderr) {
-                console.log("+++++" + stdout);
-                
                 if (errorManager(file, error, stderr, send, stdout))
                     return;
                 
