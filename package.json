@@ -7,7 +7,7 @@
     "colors": "^1.4.0",
     "cuid": "^2.1.8",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.7"
   },
